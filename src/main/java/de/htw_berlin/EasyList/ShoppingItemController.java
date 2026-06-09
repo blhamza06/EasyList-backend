@@ -1,9 +1,8 @@
 package de.htw_berlin.EasyList;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,13 +10,11 @@ import java.util.List;
 @RestController
 public class ShoppingItemController {
 
+    @Autowired
+    private ShoppingItemService service;
+
     @GetMapping("/items")
     public ResponseEntity<List<ShoppingItem>> getItems() {
-        List<ShoppingItem> items = List.of(
-                new ShoppingItem("Milch", 2, "Getränke"),
-                new ShoppingItem("Brot", 1, "Backwaren"),
-                new ShoppingItem("Äpfel", 5, "Obst")
-        );
-        return ResponseEntity.ok(items);
+        return ResponseEntity.ok(service.getAllItems());
     }
 }
