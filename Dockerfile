@@ -1,10 +1,8 @@
-FROM gradle:8.14-jdk21 AS build
-WORKDIR /app
-COPY . .
-RUN gradle bootJar --no-daemon
+FROM gradle:9-jdk25 AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-FROM eclipse-temurin:21-jre
-WORKDIR /app
-COPY --from=build /app/build/libs/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+FROM eclipse-temurin:25-jdk-jammy
+COPY --from=build /home/gradle/src/build/libs/EasyList-0.0.1-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java", "-jar", "/app.jar"]
