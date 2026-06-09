@@ -17,4 +17,9 @@ public class ShoppingItemController {
     public ResponseEntity<List<ShoppingItem>> getItems() {
         return ResponseEntity.ok(service.getAllItems());
     }
+
+    @PostMapping("/items")
+    public ResponseEntity<ShoppingItem> createItem(@RequestBody ShoppingItem item) {
+        return ResponseEntity.ok(service.saveItem(item));
+    }
 }
