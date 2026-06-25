@@ -16,6 +16,18 @@ public class ShoppingItemService {
     }
 
     public ShoppingItem saveItem(ShoppingItem item) {
+        if (item.getName() == null || item.getName().isBlank()) {
+            throw new IllegalArgumentException("Name darf nicht leer sein");
+        }
+        if (item.getUnit() == null || item.getUnit().isBlank()) {
+            throw new IllegalArgumentException("Einheit darf nicht leer sein");
+        }
+        if (item.getCategory() == null || item.getCategory().isBlank()) {
+            throw new IllegalArgumentException("Kategorie darf nicht leer sein");
+        }
+        if (item.getQuantity() < 1) {
+            throw new IllegalArgumentException("Menge muss mindestens 1 sein");
+        }
         return repository.save(item);
     }
 }

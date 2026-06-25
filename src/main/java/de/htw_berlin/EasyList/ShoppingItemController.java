@@ -1,5 +1,6 @@
 package de.htw_berlin.EasyList;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ShoppingItemController {
     }
 
     @PostMapping("/items")
-    public ResponseEntity<ShoppingItem> createItem(@RequestBody ShoppingItem item) {
+    public ResponseEntity<ShoppingItem> createItem(@Valid @RequestBody ShoppingItem item) {
         return ResponseEntity.ok(service.saveItem(item));
     }
 }
