@@ -23,4 +23,10 @@ public class ShoppingItemController {
     public ResponseEntity<ShoppingItem> createItem(@Valid @RequestBody ShoppingItem item) {
         return ResponseEntity.ok(service.saveItem(item));
     }
+
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity<Void> deleteItem(@PathVariable Long id) {
+        service.deleteItem(id);
+        return ResponseEntity.ok().build();
+    }
 }

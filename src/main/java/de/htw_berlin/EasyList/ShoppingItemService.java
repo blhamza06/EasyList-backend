@@ -30,4 +30,8 @@ public class ShoppingItemService {
         }
         return repository.save(item);
     }
+
+    public void deleteItem(Long id) {
+        repository.deleteById(id);
+    }
 }
