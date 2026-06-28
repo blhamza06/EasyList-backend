@@ -29,4 +29,9 @@ public class ShoppingItemController {
         service.deleteItem(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/items/{id}")
+    public ResponseEntity<ShoppingItem> updateItem(@PathVariable Long id, @Valid @RequestBody ShoppingItem item) {
+        return ResponseEntity.ok(service.updateItem(id, item));
+    }
 }

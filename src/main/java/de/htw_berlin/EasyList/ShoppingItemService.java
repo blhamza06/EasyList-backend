@@ -34,4 +34,14 @@ public class ShoppingItemService {
     public void deleteItem(Long id) {
         repository.deleteById(id);
     }
+
+    public ShoppingItem updateItem(Long id, ShoppingItem updatedItem) {
+        ShoppingItem existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Item nicht gefunden"));
+        existing.setName(updatedItem.getName());
+        existing.setQuantity(updatedItem.getQuantity());
+        existing.setUnit(updatedItem.getUnit());
+        existing.setCategory(updatedItem.getCategory());
+        return repository.save(existing);
+    }
 }
