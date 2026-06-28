@@ -31,4 +31,8 @@ public class ShoppingItem {
 
     @NotBlank(message = "Kategorie darf nicht leer sein")
     private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "shopping_list_id")
+    private ShoppingList shoppingList;
 }
