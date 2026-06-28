@@ -24,9 +24,24 @@ public class ShoppingListController {
         return ResponseEntity.ok(service.createList(list));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ShoppingList> renameList(@PathVariable Long id, @RequestBody ShoppingList list) {
+        return ResponseEntity.ok(service.renameList(id, list.getName()));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteList(@PathVariable Long id) {
         service.deleteList(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{id}/items")
+    public ResponseEntity<List<ShoppingItem>> getItemsByList(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getItemsByList(id));
+    }
+
+    @PostMapping("/{id}/items")
+    public ResponseEntity<ShoppingItem> addItemToList(@PathVariable Long id, @RequestBody ShoppingItem item) {
+        return ResponseEntity.ok(service.addItemToList(id, item));
     }
 }
