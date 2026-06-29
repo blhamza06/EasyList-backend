@@ -14,11 +14,12 @@ public class ShoppingListService {
     @Autowired
     private ShoppingItemRepository itemRepository;
 
-    public List<ShoppingList> getAllLists() {
-        return (List<ShoppingList>) listRepository.findAll();
+    public List<ShoppingList> getListsByUser(User user) {
+        return listRepository.findByOwner(user);
     }
 
-    public ShoppingList createList(ShoppingList list) {
+    public ShoppingList createList(ShoppingList list, User user) {
+        list.setOwner(user);
         return listRepository.save(list);
     }
 

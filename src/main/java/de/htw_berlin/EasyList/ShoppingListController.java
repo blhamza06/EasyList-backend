@@ -14,14 +14,29 @@ public class ShoppingListController {
     @Autowired
     private ShoppingListService service;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    private User getUserFromToken(String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.extractUsername(token);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User nicht gefunden"));
+    }
+
     @GetMapping
-    public ResponseEntity<List<ShoppingList>> getAllLists() {
-        return ResponseEntity.ok(service.getAllLists());
+    public ResponseEntity<List<ShoppingList>> getAllLists(@RequestHeader("Authorization") String authHeader) {
+        User user = getUserFromToken(authHeader);
+        return ResponseEntity.ok(service.getListsByUser(user));
     }
 
     @PostMapping
-    public ResponseEntity<ShoppingList> createList(@RequestBody ShoppingList list) {
-        return ResponseEntity.ok(service.createList(list));
+    public ResponseEntity<ShoppingList> createList(@RequestHeader("Authorization") String authHeader, @RequestBody ShoppingList list) {
+        User user = getUserFromToken(authHeader);
+        return ResponseEntity.ok(service.createList(list, user));
     }
 
     @PutMapping("/{id}")

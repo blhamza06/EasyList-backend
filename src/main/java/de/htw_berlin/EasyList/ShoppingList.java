@@ -1,5 +1,6 @@
 package de.htw_berlin.EasyList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,8 +9,6 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "shopping_lists")
@@ -26,6 +25,10 @@ public class ShoppingList {
     private String name;
 
     private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User owner;
 
     @JsonIgnore
     @OneToMany(mappedBy = "shoppingList", cascade = CascadeType.ALL, orphanRemoval = true)
