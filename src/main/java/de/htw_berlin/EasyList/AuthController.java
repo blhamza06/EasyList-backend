@@ -46,10 +46,15 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String username = body.get("username");
+        String usernameOrEmail = body.get("username");
         String password = body.get("password");
 
-        Optional<User> userOpt = userRepository.findByUsername(username);
+        Optional<User> userOpt = userRepository.findByUsername(usernameOrEmail);
+
+        if (userOpt.isEmpty()) {
+            userOpt = userRepository.findByEmail(usernameOrEmail);
+        }
+
         if (userOpt.isEmpty()) {
             return ResponseEntity.badRequest().body("User nicht gefunden!");
         }
@@ -59,7 +64,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Falsches Passwort!");
         }
 
-        String token = jwtUtil.generateToken(username);
-        return ResponseEntity.ok(Map.of("token", token, "username", username));
+        String token = jwtUtil.generateToken(user.getUsername());
+        return ResponseEntity.ok(Map.of("token", token, "username", user.getUsername()));
     }
 }
