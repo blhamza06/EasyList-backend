@@ -12,7 +12,10 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final Key key = Keys.hmacShaKeyFor(
+            System.getenv().getOrDefault("JWT_SECRET", "defaultsecretkey12345678901234567890")
+                    .getBytes()
+    );
     private final long EXPIRATION = 1000 * 60 * 60 * 24; // 24 Stunden
 
     public String generateToken(String username) {
